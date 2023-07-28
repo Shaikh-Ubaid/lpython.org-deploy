@@ -11,14 +11,20 @@ jobs:
 
     steps:
     - name: Checkout Main
-      uses: actions/checkout@v3
+    - uses: actions/checkout@v3
+      with:
+        submodules: true  # Fetch Hugo themes (true OR recursive)
+        fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
 
-    - name: Clone the submodule theme
+    - name: Setup Hugo
+      uses: peaceiris/actions-hugo@v2
+      with:
+        hugo-version: '0.110.0'
+        # extended: true
+
+    - name: Show Hugo version
       shell: bash -l {0}
-      run: git clone https://github.com/halogenica/beautifulhugo themes/beautifulhugo --depth=1
-
-    - name: Hugo setup
-      uses: klakegg/actions-hugo@1.0.0
+      run: hugo version
 
     - name: Build Site
       shell: bash -l {0}
